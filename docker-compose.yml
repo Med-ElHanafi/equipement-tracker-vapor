@@ -62,6 +62,7 @@ services:
     deploy:
       replicas: 0
   db:
+    platform: linux/x86_64
     image: mysql:8.0
     volumes:
       - db_data:/var/lib/mysql
