@@ -17,6 +17,9 @@ public func configure(_ app: Application) throws {
     ), as: .mysql)
 
     app.migrations.add(UserMigration())
+    
+    app.logger.logLevel = .debug
+    
     try app.autoMigrate().wait()
 
     // register routes
