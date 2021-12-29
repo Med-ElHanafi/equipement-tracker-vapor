@@ -18,6 +18,7 @@ version: '3.7'
 
 volumes:
   db_data:
+  test_db_data:
 
 x-shared_environment: &shared_environment
   LOG_LEVEL: ${LOG_LEVEL:-debug}
@@ -25,6 +26,8 @@ x-shared_environment: &shared_environment
   DATABASE_NAME: vapor_database
   DATABASE_USERNAME: vapor_username
   DATABASE_PASSWORD: vapor_password
+  TEST_DATABASE_NAME: vapor_test_database
+  TEST_DATABASE_PORT: 3307
   
 services:
   app:
@@ -73,3 +76,15 @@ services:
       MYSQL_RANDOM_ROOT_PASSWORD: 'yes'
     ports:
       - '3306:3306'
+  testdb:
+    platform: linux/x86_64
+    image: mysql:8.0
+    volumes:
+      - test_db_data:/var/lib/mysql
+    environment:
+      MYSQL_USER: vapor_username
+      MYSQL_PASSWORD: vapor_password
+      MYSQL_DATABASE: vapor_test_database
+      MYSQL_RANDOM_ROOT_PASSWORD: 'yes'
+    ports:
+      - '3307:3306'
